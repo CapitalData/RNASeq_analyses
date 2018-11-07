@@ -1,7 +1,10 @@
 #!/bin/bash
 
 readonly usage="
-Usage: RunRSEM.sh -p project_name
+Usage: RunRSEM.sh -p project name
+  
+  Runs first STAR, then RSEM Alignment on all the .fastq.gz files 
+  in the ./data/RAW_DATA/project_name directory.
 
     -p         project name: name of the project you're working on.
 "
