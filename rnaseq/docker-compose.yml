@@ -1,0 +1,9 @@
+version: '3.1'
+
+services:
+  
+  rnaseq:
+    build: .
+    volumes:
+      - '../data:/docker_home/data'
+      - '../scripts:/docker_home/scripts'
