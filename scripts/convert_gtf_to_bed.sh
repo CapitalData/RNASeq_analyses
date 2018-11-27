@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # go to dir with .gtf files
 genome_dir=$(find /docker_home -name "genome_ref")
 cd $genome_dir

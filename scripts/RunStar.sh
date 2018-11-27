@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# general directories
+source ./dir_locations.sh
+
 # TODO: I left this here because I don't know what it does. Figure that out.
 FS=!
 readonly usage="
@@ -23,14 +26,13 @@ shift "$(($OPTIND-1))"
 
 if [[ -z $project_name ]]; then
   echo "project_name argument must be provided."
-  echo "$usage"
+  echo "${usage}"
   exit 1
 else
-  project_path="./data/RAW_DATA/${project_name}"
+  project_path="${raw_data_dir}/${project_name}"
 fi
 
-star_dir="./data/RNASEQ_data/star_REP"
-mkdir -p "$star_dir"
+mkdir -p "${rnaseq_data_dir}/star_REP"
 
 # get the list of FASTQ filepaths.
 fastq_filepaths=(`find "$project_path" -name "*.fastq.gz"`)
@@ -43,9 +45,16 @@ for filename in "${fastq_filepaths[@]}"; do
 
   # RUN THE STAR ALIGNMENT
   # TODO: pass genome dir as an argument to script?
-  /home/jabust/STAR-2.6.0a/bin/Linux_x86_64/STAR --genomeDir /home/jabust/genome --readFilesCommand zcat \
-  --readFilesIn "${filename}" --outSAMtype BAM SortedByCoordinate --limitBAMsortRAM 16000000000 --outSAMunmapped Within \
-  --twopassMode Basic --outFilterMultimapNmax 1 --quantMode TranscriptomeSAM \
-  --runThreadN 20 --outFileNamePrefix "${star_dir}/${analysis_name}";
+  "${star_bin_dir}/STAR" --genomeDir "${genome_dir}/star" \
+  --readFilesCommand zcat \
+  --readFilesIn "${filename}" \
+  --outSAMtype BAM SortedByCoordinate \
+  --limitBAMsortRAM 16000000000 \
+  --outSAMunmapped Within \
+  --twopassMode Basic \
+  --outFilterMultimapNmax 1 \
+  -quantMode TranscriptomeSAM \
+  --runThreadN 20 \
+  --outFileNamePrefix "${star_dir}/${analysis_name}"
 
 done
