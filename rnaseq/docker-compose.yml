@@ -1,9 +1,9 @@
 version: '3.1'
 
 services:
-  
   rnaseq:
     build: .
     volumes:
       - '../data:/docker_home/data'
-      - '../scripts:/docker_home/scripts'
+      - '../bash_scripts:/docker_home/bash_scripts'
+      - '../r_scripts:/docker_home/r_scripts'
